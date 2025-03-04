@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>CIA FOIA Library</title>
+</head>
+<body>
+    <h1>CIA FOIA Library</h1>
+
+    <form method="GET" action="/">
+        <label>Search Query:</label>
+        <input type="text" name="query" placeholder="Keyword..." value="{{ query }}">
+
+        <label>Tag:</label>
+        <input type="text" name="tag" placeholder="Tag name..." value="{{ tag }}">
+        <br><br>
+
+        <label>Download Date Range:</label>
+        <input type="date" name="start_date" value="{{ start_date }}"> to
+        <input type="date" name="end_date" value="{{ end_date }}">
+        <br><br>
+
+        <label>File Size (Bytes):</label>
+        Min <input type="text" name="min_size" size="8" value="{{ min_size }}">
+        Max <input type="text" name="max_size" size="8" value="{{ max_size }}">
+        <br><br>
+
+        <button type="submit">Search</button>
+        <a href="{{ url_for('list_tags') }}">View All Tags</a>
+    </form>
+
+    <hr>
+
+    {% if results %}
+        <h2>Search Results</h2>
+        <table border="1" cellpadding="5">
+            <tr>
+                <th>Title</th>
+                <th>Download Date</th>
+                <th>File Size</th>
+                <th>Tag</th>
+                <th>Download</th>
+                <th>Add Tag</th>
+            </tr>
+            {% for row in results %}
+            <tr>
+                <!-- row structure: [0]=id, [1]=title, [2]=file_path, [3]=download_date, [4]=file_size, [5]=tag -->
+                <td>{{ row[1] }}</td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+                <td>{{ row[5] }}</td>
+                <td><a href="{{ url_for('download', filename=row[2]) }}">Download PDF</a></td>
+                <td>
+                    <!-- Inline form to add a new tag -->
+                    <form method="POST" action="{{ url_for('add_tag') }}">
+                        <input type="hidden" name="doc_id" value="{{ row[0] }}">
+                        <input type="text" name="tag" placeholder="New Tag">
+                        <button type="submit">Add</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No results yet. Try searching or select a tag.</p>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,52 @@
+You are a senior developer who specializes in Python, Flask web apps, web scraping, PDF text extraction, and full-text search in SQLite. Please explain everything as if you’re speaking to a nontechnical user, providing clear, step-by-step guidance.
+
+I have a project containing the following:
+
+1. **foia_downloader.py**  
+   - Scrapes the CIA FOIA Reading Room.  
+   - Downloads PDF files in parallel.  
+   - Extracts text with `pypdf`.  
+   - Inserts metadata into a local SQLite database (via FTS5).
+
+2. **db.py**  
+   - Handles SQLite connection and schema creation for:
+     - `documents` table  
+     - `documents_fts` virtual table  
+     - `tags` table
+
+3. **app.py**  
+   - A Flask web interface that:
+     - Lets users search by keyword, tag, date range, and file size  
+     - Enables file download and tagging  
+     - Displays a page listing all tags and the count of documents for each
+
+4. **requirements.txt**  
+   - Python dependencies (Flask, requests, beautifulsoup4, tqdm, pypdf)
+
+5. **templates/** (HTML templates):
+   - `index.html` for the main search page  
+   - `tags.html` for the tag listing page
+
+6. An **optional Dockerfile** to run the entire project in a container.
+
+**Task for ChatGPT**:  
+1. Provide a clear, step-by-step tutorial on setting up this project, aimed at a nontechnical user.  
+2. Include details on:
+   - Where to place or clone the files  
+   - Installing dependencies (using `pip install -r requirements.txt`)  
+   - Running `foia_downloader.py` with `--max-workers`  
+   - Starting the Flask web app (`python app.py`)  
+   - Which version of Python to use, or any environment details  
+   - Accessing the web interface in a browser and using it (e.g., searching, tagging, downloading)  
+   - Docker build and run instructions, if desired  
+   - Common troubleshooting tips (missing library, site structure changes, etc.)  
+   - Possible OCR solutions for scanned PDFs  
+   - Known SQLite concurrency limitations and alternatives
+
+3. Include best practices or optional enhancements such as:
+   - Adding more logging or error handling  
+   - Dealing with site downtime or server errors  
+   - Using Docker Compose  
+   - Creating a more advanced UI with sorting or pagination
+
+Format your explanation like a friendly, thorough guide, focusing on simplicity so that even a beginner or nontechnical user can follow each step. Provide a brief overview of each file’s purpose, and clarify each command or configuration setting as much as possible.
